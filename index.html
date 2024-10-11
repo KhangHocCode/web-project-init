@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Team Assignment</title>
+    <style>
+    body {
+        color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+        overflow-x: hidden;
+        background-image: url("/BackGroupDesktop.png");
+        width: 100%;
+        background-size: cover;
+        font-family: "MyCustomFont", sans-serif;
+      }
+      
+      .container {   
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+      
+        border-radius: 12px;
+        animation: fadeIn 1s ease-out;
+      }
+      
+      h2,
+      h3 {
+        color: rgb(240, 108, 185);
+        text-shadow: 4px 4px 6px rgb(157, 17, 167);
+        font-weight: 1000;
+      }
+      
+      h1 {
+        color: rgb(196, 12, 159);
+        font-size: 4.5em;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 4px 4px 6px rgb(240, 240, 84);
+      }
+      
+      .upload-section,
+      .assignment-section,
+      .search-section,
+      .default-assign-section {
+        margin-bottom: 30px;
+      }
+      
+      label {
+        display: block;
+        margin: 12px 0 8px;
+        color: #e538b1;
+      }
+      
+      input[type="number"],
+      input[type="file"],
+      input[type="text"] {
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1.2px solid #f536d5;
+        background-color: #2b2b3d;
+        color: #f4f4f9;
+        border-radius: 5px;
+        outline: none;
+        transition: 0.3s;
+      }
+      
+      input[type="number"]:focus,
+      input[type="file"]:focus,
+      input[type="text"]:focus {
+        border-color: #c20bbf;
+        box-shadow: 0 0 8px rgba(210, 69, 158, 0.6);
+      }
+      
+      button {
+        margin-top: 15px;
+        padding: 12px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 1em;
+        letter-spacing: 0.5px;
+        outline: none;
+        background: linear-gradient(to bottom, #a20876, #d9107b, #f363a4, #e779b3);
+      }
+      
+      button:hover {
+        background-color: #ee5bc4;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(235, 93, 150, 0.3);
+      }
+      
+      button:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #d930c0;
+        color: #f4f4f9;
+        border-radius: 8px;
+        overflow: hidden;
+        animation: slideUp 0.7s ease-out;
+      }
+      
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #852458;
+      }
+      
+      th {
+        background-color: #f12fee;
+        color: #ffffff;
+      }
+      
+      .team-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Centers and spaces the tables evenly */
+    margin-top: 30px;
+}
+
+.team-table {
+    margin-bottom: 30px;
+    width: 300px; /* Adjust width to fit multiple tables side by side */
+    margin: 10px; /* Add margin to space out the tables */
+}
+
+      
+      .team-section h3 {
+        text-align: center;
+        color: #f4f4f9;
+        margin-bottom: 10px;
+      }
+      
+     
+      
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes slideUp {
+        0% {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      
+      button:hover {
+        background-color: #e628cd;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(232, 84, 237, 0.3);
+      }
+      
+      button:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+      
+      input:focus,
+      button:hover {
+        box-shadow: 0 0 8px rgba(234, 39, 159, 0.6);
+      }
+      
+      tbody tr:hover {
+        background-color: rgba(61, 169, 252, 0.2);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+    </style>
+      
+</head>
+
+
+<body>
+    <div class="container">
+        <h1>Student Team Assignment</h1>
+
+        <!-- Phần tải tệp TXT -->
+        <div class="upload-section">
+            <h2>Upload Student List (TXT)</h2>
+            <input type="file" id="fileInput" accept=".txt">
+            <button id="uploadButton">Upload</button>
+        </div>
+
+        <!-- Phần gán sinh viên mặc định -->
+       
+
+        <!-- Hiển thị danh sách sinh viên theo từng đội -->
+        <div id="teamTablesContainer" class="team-section">
+            <!-- Các bảng đội sẽ được thêm vào đây -->
+        </div>
+        <div class="default-assign-section">
+            <h2>Assign Default Students to Teams</h2>
+            <label for="defaultStudentID">MSSV</label>
+            <input type="text" id="defaultStudentID" placeholder="Enter MSSV to assign">
+            <label for="defaultTeam">Select Team:</label>
+            <input type="number" id="defaultTeam" min="1" placeholder="Enter team number">
+            <label for="defaultStudentName">Name: </label>
+            <input type="text" id="defaultStudentName" placeholder="Nhập tên sinh viên moi">
+            <button id="assignDefaultButton">Assign Default</button>
+            <button id="clearDefaultButton" style="margin-left: 0px;">Clear Default Assignments</button>
+        </div>
+        <!-- Phần gán đội cho sinh viên -->
+        <div class="assignment-section">
+            <h2>Assign Remaining Students to Teams</h2>
+            <label for="numTeams">Number of Teams:</label>
+            <input type="number" id="numTeams" min="1" required><br>
+            <label for="numMembers">Number of Members per Team:</label>
+            <input type="number" id="numMembers" min="1" required><br>
+
+            <button id="assignTeamsButton">Assign Teams Randomly</button>
+            <button id="randomizeTeamsButton" style="margin-left: 0px;">Randomize Teams Again</button>
+        </div>
+
+        <!-- Tìm kiếm sinh viên -->
+        <div class="search-section">
+            <h2>Search Student by MSSV</h2>
+            <label for="searchID">MSSV</label>
+            <input type="number" id="searchID">
+            <button id="searchButton">Search</button>
+            <p id="searchResult"></p>
+        </div>
+    </div>
+
+    <script>
+    let students = [];
+    let defaultAssignments = {}; // To store manually assigned students
+
+    // Load TXT or CSV file and process
+    document.getElementById('uploadButton').addEventListener('click', function () {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert("Please choose a file first.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const content = e.target.result;
+            if (file.name.endsWith('.txt')) {
+                processTXT(content);  // Process the TXT file content
+            } else if (file.name.endsWith('.csv')) {
+                processCSV(content);  // Process the CSV file content
+            } else {
+                alert("Unsupported file type. Please upload a TXT or CSV file.");
+            }
+        };
+        reader.readAsText(file);
+    });
+
+    // Process TXT content
+    function processTXT(content) {
+        const lines = content.split('\n');
+        students = [];
+        defaultAssignments = {};
+
+        lines.forEach(line => {
+            const [studentID, ...fullNameParts] = line.trim().split(/\s+/);
+            const studentName = fullNameParts.join(' ');
+
+            if (studentID && studentName) {
+                students.push({ id: studentID.trim(), name: studentName.trim(), team: null });
+            }
+        });
+
+        displayTeams();
+    }
+
+    // Process CSV content
+    function processCSV(content) {
+        const rows = content.split('\n');
+        students = [];
+        defaultAssignments = {};
+
+        rows.forEach(row => {
+            const [studentID, studentName] = row.split(',');
+            if (studentID && studentName) {
+                students.push({ id: studentID.trim(), name: studentName.trim(), team: null });
+            }
+        });
+
+        displayTeams();
+    }
+
+    // Display students by team
+    function displayTeams() {
+        const teamTablesContainer = document.getElementById("teamTablesContainer");
+        teamTablesContainer.innerHTML = '';
+
+        let teams = {};
+
+        // Group students by their teams
+        students.forEach(student => {
+            const teamNum = student.team ? student.team : 'Unassigned';
+            if (!teams[teamNum]) {
+                teams[teamNum] = [];
+            }
+            teams[teamNum].push(student);
+        });
+
+        // Create table for each team
+        for (const teamNum in teams) { 
+            const teamSection = document.createElement('div');
+            teamSection.classList.add('team-table');
+            const teamTitle = document.createElement('h3');
+            teamTitle.textContent = `Team ${teamNum}`;
+            teamSection.appendChild(teamTitle);
+
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead> 
+                    <tr>
+                         <th>MSSV</th>
+                        <th>Ho va Ten</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            `;
+            
+
+            const tbody = table.querySelector('tbody');
+
+            teams[teamNum].forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            teamSection.appendChild(table);
+            teamTablesContainer.appendChild(teamSection);
+        }
+    }
+
+    // Shuffle students array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Assign random students to teams, ensuring minimal difference in team sizes
+    function assignTeams(numTeams, unassignedStudents) {
+        const teamCounts = {};  // Store the number of students in each team, including default assignments
+        for (let i = 1; i <= numTeams; i++) {
+            teamCounts[i] = 0;  // Initialize each team count to 0
+        }
+
+        // Count students already assigned to teams
+        students.forEach(student => {
+            if (student.team) {
+                teamCounts[student.team]++;
+            }
+        });
+
+        const shuffledStudents = shuffleArray(unassignedStudents.slice());
+
+        // Sort teams by the number of current members (ascending)
+        const sortedTeams = Object.keys(teamCounts).sort((a, b) => teamCounts[a] - teamCounts[b]);
+
+        // Assign unassigned students to teams  
+        shuffledStudents.forEach(student => {
+            // Always assign to the team with the least members
+            const teamNum = sortedTeams[0];  // Get the team with the least members
+            student.team = parseInt(teamNum);  // Assign the student to that team
+            teamCounts[teamNum]++;  // Increment the count for that team
+
+            // Resort teams after each assignment to ensure balance
+            sortedTeams.sort((a, b) => teamCounts[a] - teamCounts[b]);
+        });
+
+        return teamCounts;  // Return the updated team counts (if needed)
+    }
+
+    // Assign students to teams on button click
+    document.getElementById('assignTeamsButton').addEventListener('click', function () {
+        const numTeams = parseInt(document.getElementById('numTeams').value);
+        const numMembers = parseInt(document.getElementById('numMembers').value);
+        if(numTeams >=20){
+            alert("Nhap den gioi han roi ba oi oi!")
+            return;
+        }
+        if (isNaN(numTeams) || numTeams < 1 && numTeams > 20 || isNaN(numMembers) || numMembers < 1) {
+            alert("Please enter valid numbers for teams and members.");
+            return;
+        }
+
+        const unassignedStudents = students.filter(s => !defaultAssignments[s.id] && !s.team);
+
+        if (unassignedStudents.length === 0) {
+            alert("All students are already assigned to a team.");
+            return;
+        }   
+
+        assignTeams(numTeams, unassignedStudents);
+        displayTeams();
+    }); 
+
+    // Assign default students to teams
+    document.getElementById('assignDefaultButton').addEventListener('click', function() {
+  const studentID = document.getElementById('defaultStudentID').value.trim();
+  const studentName = document.getElementById('defaultStudentName').value.trim();
+  const teamNum = parseInt(document.getElementById('defaultTeam').value);
+
+  if (!studentID || isNaN(teamNum) || teamNum < 1 && teamNum > 20) {
+    alert("Vui lòng nhập đúng mã sinh viên và số nhóm.");
+    return;
+  }
+
+  // Tìm sinh viên trong danh sách
+  const studentIndex = students.findIndex(s => s.id === studentID);
+
+  if (studentIndex !== -1) {
+    // Sinh viên đã tồn tại, cập nhật nhóm
+    students[studentIndex].name = studentName;
+    students[studentIndex].team = teamNum;
+  } else {
+    // Sinh viên chưa tồn tại, tạo mới
+    const newStudent = {
+      id: studentID,
+      name: studentName,
+      // Thêm các thuộc tính khác cho sinh viên mới (tên, ...)
+      team: teamNum
+    };
+    students.push(newStudent);
+  }
+
+  defaultAssignments[studentID] = teamNum;
+  displayTeams();
+  alert(`Đã phân công ${studentID} vào Nhóm ${teamNum}.`);
+
+  document.getElementById('defaultStudentID').value = '';
+  document.getElementById('defaultTeam').value = '';
+});
+
+
+    // Clear default assignments
+    document.getElementById('clearDefaultButton').addEventListener('click', function() {
+        defaultAssignments = {};  // Clear all default assignments
+        students.forEach(student => {
+            if (student.team && student.id in defaultAssignments) {
+                student.team = null;  // Remove team assignment for default students
+            }
+        });
+        displayTeams();
+    });
+    // nhap vao sinnh vien tu ben ngoai ma khong co trong danh sach sinh vien
+    // Search student by MSSV
+    document.getElementById('searchButton').addEventListener('click', function() {
+        const searchID = document.getElementById('searchID').value.trim();
+        const student = students.find(s => s.id === searchID);
+
+        const searchResult = document.getElementById('searchResult');
+        if (student) {
+            const team = student.team ? student.team : 'Unassigned';
+            searchResult.textContent = `Student: ${student.name} | Team: ${team}`;
+        } else {
+            searchResult.textContent = 'Student not found.';
+        }
+    });
+
+    // Clear all assignments
+    function clearAllAssignments() {
+        students.forEach(student => {
+            student.team = null;
+        });
+        defaultAssignments = {};
+        displayTeams();
+    }
+
+    // Re-randomize teams
+
+    document.getElementById('randomizeTeamsButton').addEventListener('click', function () {
+        const numTeams = parseInt(document.getElementById('numTeams').value);
+        if(numTeams >=20){
+            alert("Nhap tao lao roi cha oi!!");
+            return;
+        } 
+        // Ask if the user wants to reset all assignments
+        if (confirm("Do you want to clear all previous assignments before randomizing?")) {
+            clearAllAssignments();
+        }
+
+        const unassignedStudents = students.filter(s => !defaultAssignments[s.id] && !s.team);
+
+        if (unassignedStudents.length === 0) {
+            alert("No unassigned students available for randomization.");
+            return;
+        }
+
+        assignTeams(numTeams, unassignedStudents);
+        displayTeams();
+    });
+</script>
+
+</body>
+</html>
